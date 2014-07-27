@@ -11,7 +11,7 @@ On Node.js :
 
 On browsers : 
 ```
-<script src="https://raw.github.com/Lcfvs/reg-invoker/master/index.js"></script>
+<script src="https://raw.github.com/Lcfvs/reg-invoker/master/reg-invoker.min.js"></script>
 ```
 
 Usage
