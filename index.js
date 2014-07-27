@@ -6,7 +6,6 @@ var regInvoker;
     var createObject,
         defineProperty,
         defineProperties,
-        freezeObject,
         invoke,
         build,
         createInstance,
@@ -16,7 +15,6 @@ var regInvoker;
     createObject = Object.create.bind(Object);
     defineProperty = Object.defineProperty.bind(Object);
     defineProperties = Object.defineProperties.bind(Object);
-    freezeObject = Object.freeze.bind(Object);
     
     invoke = function invoke(closure) {
         return build(closure);
