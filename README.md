@@ -4,9 +4,6 @@ Registry invoker
 **Registry invoker** is a generic **JavaScript** base to manage communications between your instances & offer an internal registry to store & exchange your values.
 
 
-[TOC]
-
-
 Install
 -------
 On Node.js : 
