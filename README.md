@@ -70,8 +70,7 @@ Reference :
 
 ###regInvoker.invoke(closure)
 ```
-@description: the method that creates a pre-built instance with a
-@description: parents <-> childs communication and an internal registry
+@description: creates a pre-built instance with a parents <-> childs communication and an internal registry
 
 @param: {Function} closure
     @see: `closure`
@@ -83,8 +82,7 @@ Reference :
 ###closure
 ```
 @instance: {Function} closure
-@description: the function that receives a pre-built instance and
-@description: the internal registry
+@description: the function that receives a pre-built instance and the internal registry
 
 @param: {Object} instance
     @see: `instance`
