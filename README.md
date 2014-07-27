@@ -18,11 +18,12 @@ Usage
 -----
 ```
 var regInvoker,
+    closure,
     instance;
 
 regInvoker = require('reg-invoker');
 
-instance = regInvoker.invoke(function (instance, internalRegistry) {
+closure = function closure(instance, internalRegistry) {
     instance.getInternalRegistry = function getInternalRegistry() {
         return internalRegistry;
     };
@@ -30,7 +31,9 @@ instance = regInvoker.invoke(function (instance, internalRegistry) {
     instance.publicRegistry = internalRegistry.create();
     
     return instance;
-});
+};
+
+instance = regInvoker.invoke(closure);
 ```
 
 Reference :
