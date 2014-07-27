@@ -146,7 +146,7 @@ Reference :
 ###registry
 ```
 @instance: {Object} registry
-@description: a registry
+@description: a registry instance
 
 @method: parent()
     @description: returns the parent registry, if any
