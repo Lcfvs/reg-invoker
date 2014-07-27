@@ -60,7 +60,7 @@ Reference :
 @description: a reg-invoker instance
 @see: `instance`
 @method @readonly: {Function} invoke(closure)
-    @see: `regInvoker.invoke()`
+    @see: `regInvoker.invoke(closure)`
     
 @property @readonly: {Object} registry
     @description: generated on the fly on first value call
