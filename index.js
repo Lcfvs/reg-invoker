@@ -1,8 +1,8 @@
 /*
 Copyright 2014 Lcf.vs
- - 
+ -
 Released under the MIT license
- - 
+ -
 https://github.com/Lcfvs/reg-invoker
 */
 var regInvoker;
@@ -22,24 +22,24 @@ var regInvoker;
     createObject = Object.create.bind(Object);
     defineProperty = Object.defineProperty.bind(Object);
     defineProperties = Object.defineProperties.bind(Object);
-    
+
     invoke = function invoke(closure) {
         return build(closure);
     };
-    
+
     build = function build(closure, parentInstance, parentRegistry, name) {
         var registry,
             Instance;
-        
+
         registry = parentRegistry
             ? parentRegistry.fork(name)
             : createRegistry();
-        
+
         Instance = createInstance(closure, parentInstance, registry);
-        
+
         return closure(Instance, registry);
     };
-    
+
     createInstance = function createInstance(closure, parentInstance, registry) {
         var childInstances,
             instance,
@@ -77,7 +77,7 @@ var regInvoker;
 
             if (name) {
                 child = build(closure, this, registry, name);
-                
+
                 descriptor = {
                     value: child,
                     enumerable: true
@@ -90,10 +90,10 @@ var regInvoker;
 
             return child;
         };
-        
+
         return instance;
     };
-    
+
     createRegistry = function createRegistry(parentRegistry) {
         var childRegistries,
             instance,
@@ -120,11 +120,11 @@ var regInvoker;
         instance.create = function create() {
             return createRegistry();
         };
-        
+
         instance.copy = function copy() {
             return createObject(this);
         };
-        
+
         instance.fork = function fork(name) {
             var child;
 
@@ -138,7 +138,7 @@ var regInvoker;
 
                 return child;
             }
-            
+
             return createRegistry();
         };
 
@@ -178,7 +178,7 @@ var regInvoker;
 
         instance.add = function add(name, value) {
             var store;
-            
+
             store = init(name, []);
             store.push(value);
 
@@ -196,7 +196,7 @@ var regInvoker;
 
     closure = function closure(regInvoker) {
         var registry;
-    
+
         defineProperties(regInvoker, {
             registry: {
                 get: function get() {
@@ -209,12 +209,12 @@ var regInvoker;
                 enumerable: true
             }
         });
-        
+
         return regInvoker;
     };
-    
+
     regInvoker = closure(createInstance(closure));
-    
+
     if (typeof module === 'object' && module.exports !== undefined) {
         module.exports = regInvoker;
     }
