@@ -3,6 +3,21 @@ Registry invoker
 
 **Registry invoker** is a generic **JavaScript** base to manage communications between your instances & offer an internal registry to store & exchange your values.
 
+Table of contents
+-----------------
+
+- [Registry invoker](#registry-invoker)
+  - [Table of contents](#table-of-contents)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Reference :](#reference-)
+    - [regInvoker](#reginvoker)
+    - [regInvoker.invoke(closure)](#reginvokerinvokeclosure)
+    - [closure](#closure)
+    - [instance](#instance)
+    - [registry](#registry)
+  - [License](#license)
+
 
 Install
 -------
@@ -146,7 +161,7 @@ Reference :
 ###registry
 ```
 @instance: {Object} registry
-@description: a registry instance
+@description: a registry
 
 @method: parent()
     @description: returns the parent registry, if any
