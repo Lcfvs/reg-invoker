@@ -23,7 +23,7 @@ var regInvoker,
 regInvoker = require('reg-invoker');
 
 instance = regInvoker.invoke(function (instance, internalRegistry) {
-    instance.getInternalRegistry() {
+    instance.getInternalRegistry = function getInternalRegistry() {
         return internalRegistry;
     };
     
