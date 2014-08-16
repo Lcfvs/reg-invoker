@@ -22,12 +22,19 @@ var iframe,
 lib = regInvoker.invoke(function (instance, registry) {
     var childName;
     
-    childName = 'iframe';
-    registry.set('childName', childName);
+    if (!instance.parent()) {
+        childName = 'iframe';
+        registry.set('childName', childName);
+    }
 
-    instance.registered = function () {
-        document.querySelector('p').innerHTML = 'iframe registered with name : '
-        + this.parent().getName();
+    instance.register = function () {
+        document.querySelector('p').innerHTML += 'iframe registered with name : '
+        + this.parent().getName() // iframe
+        + '<br />';
+        
+        document.querySelector('p').innerHTML += 'iframe registered with name : '
+        + this.getName() // unknown
+        + '<br />';
     };
     
     instance.getName = function () {
