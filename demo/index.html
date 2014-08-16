@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="description" content="A reg-invoker demo" />
+        <title>A reg-invoker demo</title>
+    </head>
+    <body>
+        <header>
+            <h1>
+               A reg-invoker demo
+            </h1>
+        </header>
+        <section data-tpl-selector="section">
+        <p></p>
+        </section>
+        <script src="https://raw.github.com/Lcfvs/reg-invoker/master/reg-invoker.min.js"></script>
+        <script>
+var iframe,
+    lib;
+
+lib = regInvoker.invoke(function (instance, registry) {
+    var childName;
+    
+    childName = 'iframe';
+    registry.set('childName', childName);
+
+    instance.registered = function () {
+        document.querySelector('p').innerHTML = 'iframe registered with name : '
+        + this.parent().getName();
+    };
+    
+    instance.getName = function () {
+        return registry.get('childName', 'unknown');
+    };
+    
+    return instance;
+});
+
+iframe = document.createElement('iframe');
+iframe.src = 'iframe.html';
+
+iframe.onload = function onload(){
+    iframe.contentWindow.test(lib.fork('name'));
+};
+
+document.querySelector('section').appendChild(iframe);
+        </script>
+    </body>
+</html>
