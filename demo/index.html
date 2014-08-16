@@ -28,27 +28,31 @@ lib = regInvoker.invoke(function (instance, registry) {
     }
 
     instance.register = function () {
-        document.querySelector('p').innerHTML += 'iframe registered with name : '
-        + this.parent().getName() // iframe
+        document.querySelector('p').innerHTML += 'child.parent().getChildName() : '
+        + this.parent().getChildName() // iframe
         + '<br />';
         
-        document.querySelector('p').innerHTML += 'iframe registered with name : '
-        + this.getName() // unknown
+        document.querySelector('p').innerHTML += 'child.getChildName() : '
+        + this.getChildName() // unknown
         + '<br />';
     };
     
-    instance.getName = function () {
+    instance.getChildName = function () {
         return registry.get('childName', 'unknown');
     };
     
     return instance;
 });
+     
+document.querySelector('p').innerHTML += 'lib.getChildName() : '
++ lib.getChildName() // iframe
++ '<br />';
 
 iframe = document.createElement('iframe');
 iframe.src = 'iframe.html';
 
 iframe.onload = function onload(){
-    iframe.contentWindow.test(lib.fork('name'));
+    iframe.contentWindow.test(lib.fork());
 };
 
 document.querySelector('section').appendChild(iframe);
