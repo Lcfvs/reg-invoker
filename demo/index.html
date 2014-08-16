@@ -21,8 +21,8 @@ var iframe,
 
 lib = regInvoker.invoke(function (instance, registry) {
     instance.writeName = function writeName() {
-        document.querySelector('p').innerHTML += 'instance.getName() : '
-        + this.getName()
+        document.querySelector('p').innerHTML += 'instance.name() : '
+        + this.name()
         + '<br />';
     };
     
