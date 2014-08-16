@@ -154,6 +154,11 @@ Reference :
         @description: the child name of the related instance
     
     @return {Object} childInstance
+    
+@method: name()
+    @description: returns the instance name, if any
+        
+    @return {String} name | undefined
 ```
 
 ###registry
@@ -281,6 +286,11 @@ Reference :
         @description: the named record in the related registry
         
     @return {Object} registry
+    
+@method: name()
+    @description: returns the registry name, if any
+        
+    @return {String} name | undefined
 ```
 
 License
