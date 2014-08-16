@@ -14,45 +14,38 @@
         <section data-tpl-selector="section">
         <p></p>
         </section>
-        <script src="https://raw.github.com/Lcfvs/reg-invoker/master/reg-invoker.min.js"></script>
+        <script src="reg-invoker.js"></script>
         <script>
 var iframe,
     lib;
 
 lib = regInvoker.invoke(function (instance, registry) {
-    var childName;
+    instance.writeName = function writeName() {
+        document.querySelector('p').innerHTML += 'instance.getName() : '
+        + this.getName()
+        + '<br />';
+    };
+    
+    instance.writeProtectedValue = function writeProtectedValue() {
+        document.querySelector('p').innerHTML += 'registry.parent().get(\'protectedValue\', \'unknown\') : '
+        + registry.parent().get('protectedValue', 'unknown')
+        + '<br />';
+    };
     
     if (!instance.parent()) {
-        childName = 'iframe';
-        registry.set('childName', childName);
+        registry.init('protectedValue', 'a protected value');
     }
-
-    instance.register = function () {
-        document.querySelector('p').innerHTML += 'child.parent().getChildName() : '
-        + this.parent().getChildName() // iframe
-        + '<br />';
-        
-        document.querySelector('p').innerHTML += 'child.getChildName() : '
-        + this.getChildName() // unknown
-        + '<br />';
-    };
-    
-    instance.getChildName = function () {
-        return registry.get('childName', 'unknown');
-    };
     
     return instance;
 });
-     
-document.querySelector('p').innerHTML += 'lib.getChildName() : '
-+ lib.getChildName() // iframe
-+ '<br />';
+
+lib.writeName();
 
 iframe = document.createElement('iframe');
 iframe.src = 'iframe.html';
 
 iframe.onload = function onload(){
-    iframe.contentWindow.test(lib.fork());
+    iframe.contentWindow.test(lib.fork('iframe'));
 };
 
 document.querySelector('section').appendChild(iframe);
