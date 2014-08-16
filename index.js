@@ -40,7 +40,7 @@ var regInvoker;
         return closure(instance, registry);
     };
 
-    createInstance = function createInstance(closure, parentInstance, registry, name) {
+    createInstance = function createInstance(closure, parentInstance, registry, forkName) {
         var childInstances,
             instance,
             registry;
@@ -88,14 +88,14 @@ var regInvoker;
             return child;
         };
         
-        instance.getName = function getName() {
-            return name;
+        instance.name = function name() {
+            return forkName;
         };
 
         return instance;
     };
 
-    createRegistry = function createRegistry(parentRegistry, name) {
+    createRegistry = function createRegistry(parentRegistry, forkName) {
         var childRegistries,
             instance,
             registry,
@@ -192,8 +192,8 @@ var regInvoker;
             return this;
         };
         
-        instance.getName = function getName() {
-            return name;
+        instance.name = function name() {
+            return forkName;
         };
 
         return instance;
