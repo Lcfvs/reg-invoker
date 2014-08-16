@@ -29,23 +29,25 @@ var regInvoker;
 
     build = function build(closure, parentInstance, parentRegistry, name) {
         var registry,
-            Instance;
-
+            instance;
+            
         registry = parentRegistry
             ? parentRegistry.fork(name)
             : createRegistry();
 
-        Instance = createInstance(closure, parentInstance, registry);
+        instance = createInstance(closure, parentInstance, registry);
+        
+        instance.getName = function getName() {
+            return name;
+        };
 
-        return closure(Instance, registry);
+        return closure(instance, registry);
     };
 
     createInstance = function createInstance(closure, parentInstance, registry) {
         var childInstances,
             instance,
-            registry,
-            plugin,
-            returnValue;
+            registry;
 
         childInstances = {};
         instance = {};
@@ -72,8 +74,7 @@ var regInvoker;
 
         instance.fork = function fork(name) {
             var child,
-                descriptor,
-                returnValue;
+                descriptor;
 
             if (name) {
                 child = build(closure, this, registry, name);
