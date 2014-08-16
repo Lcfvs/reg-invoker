@@ -182,7 +182,7 @@ var regInvoker;
             store = init(name, []);
             store.push(value);
 
-            return store;
+            return this;
         };
 
         instance.unset = function unset(name) {
