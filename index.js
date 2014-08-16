@@ -35,16 +35,12 @@ var regInvoker;
             ? parentRegistry.fork(name)
             : createRegistry();
 
-        instance = createInstance(closure, parentInstance, registry);
-        
-        instance.getName = function getName() {
-            return name;
-        };
+        instance = createInstance(closure, parentInstance, registry, name);
 
         return closure(instance, registry);
     };
 
-    createInstance = function createInstance(closure, parentInstance, registry) {
+    createInstance = function createInstance(closure, parentInstance, registry, name) {
         var childInstances,
             instance,
             registry;
@@ -91,11 +87,15 @@ var regInvoker;
 
             return child;
         };
+        
+        instance.getName = function getName() {
+            return name;
+        };
 
         return instance;
     };
 
-    createRegistry = function createRegistry(parentRegistry) {
+    createRegistry = function createRegistry(parentRegistry, name) {
         var childRegistries,
             instance,
             registry,
@@ -130,7 +130,7 @@ var regInvoker;
             var child;
 
             if (name) {
-                child = createRegistry(this);
+                child = createRegistry(this, name);
 
                 defineProperty(childRegistries, name, {
                     value: child,
@@ -190,6 +190,10 @@ var regInvoker;
             delete registry[name];
 
             return this;
+        };
+        
+        instance.getName = function getName() {
+            return name;
         };
 
         return instance;
