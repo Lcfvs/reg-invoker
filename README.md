@@ -258,6 +258,8 @@ Reference :
     
     @param: {String} value
         @description: the value of named record in the related registry
+        
+    @return {Object} registry
     
 @method: add(name, value)
     @description: adds a value to a record with the chosen name, in the registry, with the related value
@@ -269,14 +271,16 @@ Reference :
     
     @param: {String} value
         @description: the value stored in the named record in the related registry
-    
-    @return {*} recordValue
+        
+    @return {Object} registry
     
 @method: unset(name)
     @description: deletes a record with the chosen name, in the registry, with the related value
     
     @param: {String} name
         @description: the named record in the related registry
+        
+    @return {Object} registry
 ```
 
 License
