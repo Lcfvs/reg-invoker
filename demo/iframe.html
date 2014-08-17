@@ -11,11 +11,16 @@
                A reg-invoker demo iframe
             </h1>
         </header>
+        <section></section>
         <script>
-function test(instance) {
-    instance.writeName();
-    instance.writeProtectedValue();
-}
+var start;
+
+start = function start(lib, onReady) {
+    lib.createIframe('subIframe', this.document, function () {
+        onReady();
+        lib.genealogy();
+    });
+}.bind(this);
         </script>
     </body>
 </html>
