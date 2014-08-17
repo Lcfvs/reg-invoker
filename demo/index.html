@@ -19,18 +19,16 @@
 (function (global) {
     'use strict';
     
-    var keys,
+    var document,
+        dl,
+        keys,
         lib;
-        
+    
+    document = global.document;
+    dl = document.querySelector('dl');
     keys = Object.keys.bind(Object);
 
     lib = regInvoker.invoke(function (instance, registry) {
-        var rootDocument,
-            dl;
-        
-        rootDocument = global.document;
-        dl = rootDocument.querySelector('dl');
-        
         instance.createIframe = function createIframe(name, document, onReady) {
             var instance,
                 iframe;
@@ -48,8 +46,7 @@
         };
         
         instance.genealogy = function genealogy() {
-            var document,
-                parent,
+            var parent,
                 parentName,
                 grandParentName,
                 children,
@@ -61,7 +58,6 @@
                 childrenDl,
                 listChildren;
             
-            document = rootDocument;
             parent = registry.parent();
             
             dt = document.createElement('dt');
