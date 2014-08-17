@@ -12,43 +12,158 @@
             </h1>
         </header>
         <section data-tpl-selector="section">
-        <p></p>
+        <dl></dl>
         </section>
         <script src="reg-invoker.js"></script>
         <script>
-var iframe,
-    lib;
-
-lib = regInvoker.invoke(function (instance, registry) {
-    instance.writeName = function writeName() {
-        document.querySelector('p').innerHTML += 'instance.name() : '
-        + this.name()
-        + '<br />';
-    };
+(function (global) {
+    'use strict';
     
-    instance.writeProtectedValue = function writeProtectedValue() {
-        document.querySelector('p').innerHTML += 'registry.parent().get(\'protectedValue\', \'unknown\') : '
-        + registry.parent().get('protectedValue', 'unknown')
-        + '<br />';
-    };
-    
-    if (!instance.parent()) {
-        registry.init('protectedValue', 'a protected value');
-    }
-    
-    return instance;
-});
+    var getOwnPropertyNames,
+        lib;
+        
+    getOwnPropertyNames = Object.getOwnPropertyNames.bind(Object);
 
-lib.writeName();
+    lib = regInvoker.invoke(function (instance, registry) {
+        var rootDocument,
+            dl;
+        
+        rootDocument = global.document;
+        dl = rootDocument.querySelector('dl');
+        
+        instance.createIframe = function createIframe(name, document, onReady) {
+            var instance,
+                iframe;
 
-iframe = document.createElement('iframe');
-iframe.src = 'iframe.html';
+            instance = this;
+            
+            iframe = document.createElement('iframe');
+            iframe.src = name + '.html';
 
-iframe.onload = function onload(){
-    iframe.contentWindow.test(lib.fork('iframe'));
-};
+            iframe.onload = function onload(){
+                iframe.contentWindow.start(instance.fork(name), onReady);
+            };
 
-document.querySelector('section').appendChild(iframe);
+            document.querySelector('section').appendChild(iframe);
+        };
+        
+        instance.genealogy = function genealogy() {
+            var document,
+                parent,
+                parentName,
+                grandParentName,
+                children,
+                childrenNames,
+                dt,
+                dd,
+                dtText,
+                ddText,
+                childrenDl,
+                listChildren;
+            
+            document = rootDocument;
+            parent = registry.parent();
+            
+            dt = document.createElement('dt');
+            dtText = document.createTextNode(registry.get('name') + ' says :');
+            dt.appendChild(dtText);
+            dl.appendChild(dt);
+            
+            dd = document.createElement('dd');
+            
+            if (parent) {
+                parentName = parent.get('name');
+                
+                ddText = document.createTextNode('My parent is ' + parentName);
+                dd.appendChild(ddText);
+                dl.appendChild(dd);
+                
+                do {
+                    parent = parent.parent();
+                    dd = document.createElement('dd');
+                    
+                    if (parent) {
+                        grandParentName = parent.get('name');
+                        
+                        ddText = document.createTextNode(parentName + '\'s parent is ' + grandParentName);
+                    
+                        parentName = grandParentName;
+                    } else {
+                        ddText = document.createTextNode(parentName + '\'s is orphan');
+                    }
+                    
+                    dd.appendChild(ddText);
+                    dl.appendChild(dd);
+                } while (parent);
+            } else {
+                ddText = document.createTextNode('I\'m orphan');
+                dd.appendChild(ddText);
+                dl.appendChild(dd);
+            }
+            
+            children = registry.children();
+            childrenNames = getOwnPropertyNames(children);
+            
+            if (!childrenNames.length) {
+                dd = document.createElement('dd');
+                ddText = document.createTextNode('I have no children');
+                dd.appendChild(ddText);
+            } else {
+                dd = document.createElement('dd');
+                childrenDl = document.createElement('dl');
+                dd.appendChild(childrenDl);
+                dt = document.createElement('dt');
+                dtText = document.createTextNode('I have children :');
+                dt.appendChild(dtText);
+                childrenDl.appendChild(dt);
+                listChildren = this.listChildren.bind(instance, children, childrenDl);
+                childrenNames.forEach(listChildren);
+            }
+            
+            dl.appendChild(dd);
+        };
+        
+        instance.listChildren = function listChildren(children, dl, childName) {
+            var child,
+                children,
+                childrenNames,
+                dt,
+                dd,
+                dtText,
+                ddText,
+                childrenDl,
+                listChildren;
+            
+            child = children[childName];
+            dd = document.createElement('dd');
+            
+            children = child.children();
+            childrenNames = getOwnPropertyNames(children);
+            
+            if (!childrenNames.length) {
+                ddText = document.createTextNode(childName + ', which has no children');
+                dd.appendChild(ddText);
+            } else {
+                childrenDl = document.createElement('dl');
+                dt = document.createElement('dt');
+                dtText = document.createTextNode(childName + ', which has children :');
+                dt.appendChild(dtText);
+                childrenDl.appendChild(dt);
+                listChildren = this.listChildren.bind(this, children, childrenDl);
+                childrenNames.forEach(listChildren);
+                dd.appendChild(childrenDl);
+            }
+            
+            dl.appendChild(dd);
+        };
+        
+        registry.init('name', instance.name() || 'root');
+        
+        return instance;
+    }.bind(this));
+
+    lib.createIframe('iframe', document, lib.genealogy.bind(lib));
+}(this));
         </script>
     </body>
 </html>
