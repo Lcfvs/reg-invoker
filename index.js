@@ -24,7 +24,7 @@ var regInvoker;
     defineProperties = Object.defineProperties.bind(Object);
 
     invoke = function invoke(closure) {
-        return build(closure);
+        return build(closure, undefined, undefined);
     };
 
     build = function build(closure, parentInstance, parentRegistry, name) {
@@ -42,8 +42,7 @@ var regInvoker;
 
     createInstance = function createInstance(closure, parentInstance, registry, forkName) {
         var childInstances,
-            instance,
-            registry;
+            instance;
 
         childInstances = {};
         instance = {};
@@ -190,6 +189,17 @@ var regInvoker;
             delete registry[name];
 
             return this;
+        };
+        
+        instance.share = function share(closure, sharedRegistry) {
+            var registry,
+                instance;
+            
+            registry = sharedRegistry || createRegistry();
+            
+            instance = createInstance(closure, undefined, registry);
+            
+            return closure(instance, registry);
         };
         
         instance.name = function name() {
