@@ -291,6 +291,18 @@ Reference :
     @description: returns the registry name, if any
         
     @return {String} name | undefined
+    
+@method: share(closure, registry)
+    @description: returns the registry name, if any
+        
+    @param: {String} closure
+        @see: `closure`
+        
+    @param @optional: {Function} registry
+        @see: `closure`
+        
+    @return {*} closureValue
+        @description: the closure return value
 ```
 
 License
